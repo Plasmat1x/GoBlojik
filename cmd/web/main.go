@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"os"
 
-	"pl1x/pkg/models/msql"
+	msql "pl1x/pkg/models/mysql"
 
 	_ "net/url"
 
-	_ "github.com/denisenkom/go-mssqldb"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type application struct {
@@ -22,7 +22,7 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "Net-addr HTTP")
-	dsn := flag.String("dsn", "sqlserver://pl1x:testPW@192.168.1.113:1433/instance?database=GoBlojikDB", "connection string")
+	dsn := flag.String("dsn", "web:hackOFF1@/blojik?parseTime=true", "connection string")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -52,7 +52,7 @@ func main() {
 }
 
 func openDB(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("sqlserver", dsn)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, err
 	}
