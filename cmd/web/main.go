@@ -22,7 +22,7 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "Net-addr HTTP")
-	dsn := flag.String("dsn", "server=localhost\\SQLExpress;user id=Administrator;database=master;app name=MyAppName", "connection string")
+	dsn := flag.String("dsn", "sqlserver://pl1x:testPW@192.168.1.113:1433/instance?database=GoBlojikDB", "connection string")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
