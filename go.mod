@@ -1,4 +1,4 @@
-module Plasmat1xBlog/snippetbox
+module pl1x
 
 go 1.20
 
