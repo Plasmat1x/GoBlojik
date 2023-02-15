@@ -7,17 +7,19 @@ import (
 	"net/http"
 	"os"
 
-	msql "pl1x/pkg/models/mssql"
+	ms_sql "pl1x/pkg/models/mssql"
 
 	_ "net/url"
 
+	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/microsoft/go-mssqldb"
 )
 
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
-	snippets *msql.SnippetModel
+	//snippets *ms_sql.SnippetModel
+	snippets *ms_sql.SnippetModel
 }
 
 func main() {
@@ -29,7 +31,7 @@ func main() {
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
-	db, err := openDB(*dsn)
+	db, err := openMSSQL(*dsn)
 	if err != nil {
 		errorLog.Fatal(err)
 	}
@@ -38,7 +40,8 @@ func main() {
 	app := &application{
 		errorLog: errorLog,
 		infoLog:  infoLog,
-		snippets: &msql.SnippetModel{DB: db},
+		//snippets: &ms_sql.SnippetModel{DB: db},
+		snippets: &ms_sql.SnippetModel{DB: db},
 	}
 
 	srv := &http.Server{
@@ -52,8 +55,19 @@ func main() {
 	errorLog.Fatal(err)
 }
 
-func openDB(dsn string) (*sql.DB, error) {
+func openMSSQL(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("sqlserver", dsn)
+	if err != nil {
+		return nil, err
+	}
+	if err = db.Ping(); err != nil {
+		return nil, err
+	}
+	return db, nil
+}
+
+func openMYSQL(dsn string) (*sql.DB, error) {
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, err
 	}
