@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "192.168.1.113",
+            "port": 9977,
+            "driver": "MySQL",
+            "name": "blojik",
+            "database": "blojik",
+            "username": "pl1x",
+            "askForPassword": true
+        }
+    ]
+}
