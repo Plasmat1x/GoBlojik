@@ -2,6 +2,8 @@
 
 Попытка в Го
 
+- MSSQL / github.com/microsoft/go-mssqldb
+
 <https://golangify.com/>
 
 ## Bash/powershell
