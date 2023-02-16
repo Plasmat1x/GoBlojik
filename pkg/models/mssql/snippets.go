@@ -12,12 +12,6 @@ type SnippetModel struct {
 	DB *sql.DB
 }
 
-func (m *SnippetModel) getLast() (int64, error) {
-	lastInsertId := 0
-	err := m.DB.QueryRow("SELECT TOP(1) id FROM snippet").Scan(&lastInsertId)
-	return int64(lastInsertId), err
-}
-
 func (m *SnippetModel) Insert(title, content, expires string) (int, error) {
 	ctx := context.Background()
 
