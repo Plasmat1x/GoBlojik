@@ -2,7 +2,9 @@
 
 Попытка в Го
 
-https://golangify.com/
+<https://golangify.com/>
+
+## Bash/powershell
 
 ```bash
 mkdir SqlServerSample
@@ -10,6 +12,8 @@ mkdir SqlServerSample
 cd SqlServerSample
 go get github.com/microsoft/go-mssqldb
 ```
+
+## SQL
 
 ``` SQL
 CREATE SCHEMA TestSchema;
@@ -31,6 +35,8 @@ GO
 SELECT * FROM TestSchema.Employees;
 GO
 ```
+
+## Golang
 
 ```Go
 package main
