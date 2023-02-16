@@ -11,20 +11,19 @@ import (
 
 	_ "net/url"
 
-	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/microsoft/go-mssqldb"
 )
 
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
-	//snippets *ms_sql.SnippetModel
 	snippets *ms_sql.SnippetModel
 }
 
 func main() {
 	addr := flag.String("addr", ":4000", "Net-addr HTTP")
-	dsn := flag.String("dsn", "server=localhost\\SQLExpress;user id=Web;password=hackOFF1;database=master;app name=MyAppName;", "connection string")
+	//dsn := flag.String("dsn", "server=localhost\\SQLExpress;user id=Web;password=hackOFF1;database=GoBlojikDB;app name=MyAppName;", "connection string")
+	dsn := flag.String("dsn", "mssql://Web:hackOFF1@localhost/SQLEXPRESS\\GoBlojikDB", "connection string")
 
 	flag.Parse()
 
@@ -40,7 +39,6 @@ func main() {
 	app := &application{
 		errorLog: errorLog,
 		infoLog:  infoLog,
-		//snippets: &ms_sql.SnippetModel{DB: db},
 		snippets: &ms_sql.SnippetModel{DB: db},
 	}
 
@@ -57,17 +55,6 @@ func main() {
 
 func openMSSQL(dsn string) (*sql.DB, error) {
 	db, err := sql.Open("sqlserver", dsn)
-	if err != nil {
-		return nil, err
-	}
-	if err = db.Ping(); err != nil {
-		return nil, err
-	}
-	return db, nil
-}
-
-func openMYSQL(dsn string) (*sql.DB, error) {
-	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, err
 	}

@@ -3,6 +3,7 @@ package ms_sql
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"pl1x/pkg/models"
 	"strconv"
 )
@@ -52,7 +53,41 @@ func (m *SnippetModel) Insert(title, content, expires string) (int, error) {
 }
 
 func (m *SnippetModel) Get(id int) (*models.Snippet, error) {
-	return nil, nil
+	ctx := context.Background()
+
+	// Check if database is alive.
+	err := m.DB.PingContext(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	tsql := fmt.Sprintf(`USE GoBlojikDB;
+	SELECT id, title, content, created, expires FROM snippets
+	WHERE expires > CURRENT_TIMESTAMP AND id = @id 
+	`)
+
+	// Execute query
+	rows, err := m.DB.QueryContext(ctx, tsql, sql.Named("id", id))
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var count int
+	s := &models.Snippet{}
+
+	// Iterate through the result set.
+	for rows.Next() {
+		// Get values from row.
+		err := rows.Scan(&s.ID, &s.Title, &s.Content, &s.Created, &s.Expires)
+		if err != nil {
+			return nil, err
+		}
+		count++
+	}
+
+	return s, nil
 }
 
 func (m *SnippetModel) Latest() ([]*models.Snippet, error) {
