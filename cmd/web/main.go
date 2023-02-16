@@ -22,8 +22,8 @@ type application struct {
 
 func main() {
 	addr := flag.String("addr", ":4000", "Net-addr HTTP")
-	//dsn := flag.String("dsn", "server=localhost\\SQLExpress;user id=Web;password=hackOFF1;database=GoBlojikDB;app name=MyAppName;", "connection string")
-	dsn := flag.String("dsn", "mssql://Web:hackOFF1@localhost/SQLEXPRESS\\GoBlojikDB", "connection string")
+	dsn := flag.String("dsn", "server=localhost\\SQLExpress;user id=Web;password=hackOFF1;database=GoBlojikDB;app name=MyAppName;", "connection string")
+	//dsn := flag.String("dsn", "mssql://Web:hackOFF1@localhost/SQLEXPRESS\\GoBlojikDB", "connection string")
 
 	flag.Parse()
 
